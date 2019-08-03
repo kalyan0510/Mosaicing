@@ -37,7 +37,7 @@ for img in files:
 		imgno = int(os.path.splitext(base)[0])
 
 		image = np.array(Image.open(imagePath))
-		indexing.append([imgno,pooldown(image,5).tolist()])
+		indexing.append([imgno,pooldown(image,3).tolist(), pooldown(image,5).tolist(), pooldown(image,7).tolist(), pooldown(image,9).tolist()])
 		if z%500 == 0:
 			print(z)
 			print(datetime.datetime.now().time())
