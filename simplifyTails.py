@@ -4,7 +4,6 @@ import os, sys
 import scipy.misc
 from math import sin,cos,pi
 import numpy as np
-import os
 
 def roation_mat(x,y,angle):
   p = x*int(cos(angle))-y*int(sin(angle))
