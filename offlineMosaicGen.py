@@ -132,7 +132,7 @@ def mosaic(image, poolsize):
 	print(b - a)
 	return x
 
-def fiftyIzeImaze(image,resol= [500,500]):
+def presetImaze(image,resol= [500,500]):
 	imgheight = image.shape[0]
 	imgwidth = image.shape[1]
 	xresstart = (imgheight-resol[0])/2
@@ -148,7 +148,7 @@ for image in images:
 	imagearray = np.array(Image.open(imagePath))
 	imagearray=imagearray[:,:,:3]
 	print(imagearray.shape)
-	imagearray = fiftyIzeImaze(imagearray,[(imagearray.shape[0]/50)*50,(imagearray.shape[1]/50)*50])
+	imagearray = presetImaze(imagearray,[(imagearray.shape[0]/50)*50,(imagearray.shape[1]/50)*50])
 	imagearray = mosaic(imagearray,pooledIndexToPoolSize[pooledIndex])
 	img = Image.fromarray(imagearray, 'RGB')
 	img.show()
