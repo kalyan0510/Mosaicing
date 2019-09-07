@@ -9,18 +9,15 @@ import time
 import scipy.misc
 import sys
 
-# python offlineMosaicGen.py foldername indexname 25(size of each block in final img) imputimage.jpg
+# python offlineMosaicGen.py heads 25 11
 
-mosaic_resol = int(float(sys.argv[3]))
-output_block_resol = 50
-blur_size = 3
-pooledIndex = 3 # 1-1 2-3 3-5 4-7 5-9
-
-
-
+mosaic_resol = int(float(sys.argv[2]))
+output_block_resol = 100
+blur_size = 0#output_block_resol/8
+pooledIndex = 5 # 1-1 2-3 3-5 4-7 5-9
 pooledIndexToPoolSize = [0,1,3,5,7,9]
 print("Loading indexes")
-infile = open(sys.argv[2],'rb')
+infile = open(sys.argv[1]+'indexes','rb')
 indexes = pickle.load(infile)
 infile.close()
 
@@ -33,20 +30,15 @@ kdtree = spatial.cKDTree(poolnflat, leafsize=pooledIndex*200)
 
 
 print("Loading Images....")
-# allimages = dict()
-# for i in index:
-# 	imagePath = sys.argv[1]+"/"+str(i)+".jpg"
-# 	imagearray = np.array(Image.open(imagePath))
-# 	# unnecessary if both resols are same 
-# 	if output_block_resol == 51:
-# 		allimages[i] =imagearray
-# 	else:
-# 		allimages[i] = cv2.resize(imagearray, dsize=(output_block_resol, output_block_resol), interpolation=cv2.INTER_CUBIC)
-
-def getAnImage(img):
-	imagePath = sys.argv[1]+"/"+str(img)+".jpg"
+allimages = dict()
+for i in index:
+	imagePath = sys.argv[1]+"/"+str(i)+".jpg"
 	imagearray = np.array(Image.open(imagePath))
-	return cv2.resize(imagearray, dsize=(output_block_resol, output_block_resol), interpolation=cv2.INTER_CUBIC)
+	# unnecessary if both resols are same 
+	if output_block_resol == 51:
+		allimages[i] =imagearray
+	else:
+		allimages[i] = cv2.resize(imagearray, dsize=(output_block_resol, output_block_resol), interpolation=cv2.INTER_CUBIC)
 
 
 print("Completed loading")
@@ -63,15 +55,15 @@ def pooldown(image,size):
 	return res
 
 
-# def findBestMatch(image,size):
-# 	res = np.zeros([size,size,3], dtype='uint8')
-# 	for i in range(3):
-# 		res[:,:,i]=cv2.resize(image[:,:,i], dsize=(size,size))
-# 	#starttime = time.time()
-# 	dis,ind = kdtree.query(res.reshape(size*size*3))
-# 	#endtime = time.time()
+def findBestMatch(image,size):
+	res = np.zeros([size,size,3], dtype='uint8')
+	for i in range(3):
+		res[:,:,i]=cv2.resize(image[:,:,i], dsize=(size,size))
+	#starttime = time.time()
+	dis,ind = kdtree.query(res.reshape(size*size*3))
+	#endtime = time.time()
 	
-# 	return allimages[index[ind]]
+	return allimages[index[ind]]
 
 def findBestMatchParallel(images,size):
 	#print("size of images"+str(len(images)))
@@ -84,7 +76,7 @@ def findBestMatchParallel(images,size):
 	#endtime = time.time()
 	#print(endtime-starttime)
 	print(index[inds])
-	return [getAnImage(index[ind]) for ind in inds]
+	return [allimages[index[ind]] for ind in inds]
 
 #changing func to maintain own image before returning
 def replaceEachBlock(im,width,height,poolsize):
@@ -132,7 +124,7 @@ def mosaic(image, poolsize):
 	print(b - a)
 	return x
 
-def presetImaze(image,resol= [500,500]):
+def fiftyIzeImaze(image,resol= [500,500]):
 	imgheight = image.shape[0]
 	imgwidth = image.shape[1]
 	xresstart = (imgheight-resol[0])/2
@@ -141,18 +133,18 @@ def presetImaze(image,resol= [500,500]):
 	yresend = imgwidth - (imgwidth-resol[1])/2
 	return image[xresstart:xresend,yresstart:yresend,:]
 
-images = sys.argv[4:]
-for image in images:
-	print("mosaicing "+image)
-	imagePath = str(image)
+imageNos = sys.argv[3:]
+for imageNo in imageNos:
+	print("mosaicing "+imageNo+".jpg")
+	imagePath = "testData/"+str(imageNo)+".jpg"
 	imagearray = np.array(Image.open(imagePath))
 	imagearray=imagearray[:,:,:3]
 	print(imagearray.shape)
-	imagearray = presetImaze(imagearray,[(imagearray.shape[0]/50)*50,(imagearray.shape[1]/50)*50])
+	imagearray = fiftyIzeImaze(imagearray,[(imagearray.shape[0]/50)*50,(imagearray.shape[1]/50)*50])
 	imagearray = mosaic(imagearray,pooledIndexToPoolSize[pooledIndex])
 	img = Image.fromarray(imagearray, 'RGB')
 	img.show()
-	img.save(str(image)+"_mosaic.jpg")
+	img.save("testData/"+str(imageNo)+"_mosaic.jpg")
 
 
 
