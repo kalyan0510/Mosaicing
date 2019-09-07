@@ -17,7 +17,6 @@ import random
 import sys
 from matplotlib import animation
 
-
 infile = open(sys.argv[1]+'indexes','rb')
 indexes = pickle.load(infile)
 infile.close()
@@ -34,32 +33,9 @@ pool5flat = pool5.reshape(pool5.shape[0], pool5.shape[1]*pool5.shape[2]*pool5.sh
 fig = pyplot.figure()
 ax = Axes3D(fig)
 
-# ids = np.random.choice(pool1flat.shape[0], 1000, replace=False)  
-# pool1flat = pool1flat[ids]
-
 x = [a[0] for a in pool1flat]
 y = [a[1] for a in pool1flat]
 z = [a[2] for a in pool1flat]
-
-# #ax.scatter(x, y, z,s=1)
-# ax.set_xlabel('Red', fontsize=18)
-# ax.set_ylabel('Blue', fontsize=18)
-# ax.set_zlabel('Green', fontsize=18)
-# ax.set_title('Main')
-# #pyplot.show()
-# def init():
-# 	ax.scatter(x, y, z,c=np.column_stack((x,y,z))/256.0,s=1)
-# 	return fig,
-
-# def animate(s):
-#     ax.view_init(30, s)
-#     return fig,
-
-# anim = animation.FuncAnimation(fig, animate, init_func=init,frames=360, interval=400, blit=True)
-# print('saving animation')
-# anim.save(sys.argv[1]+'basic_animation.gif', writer='imagemagick', fps=60)
-
-# pyplot.show()
 
 components = 2
 d = pd.DataFrame(pool1flat) 
@@ -67,7 +43,6 @@ gmm = GaussianMixture(n_components = components)
 print("fitting")
 gmm.fit(d) 
 
-# Assign a label to each sample 
 print("predicting")
 labels = gmm.predict(d) 
 d['labels']= labels 
@@ -96,5 +71,4 @@ for i in range(components):
 	
 	anim.save(sys.argv[1]+'_cluster_animation_'+str(i)+'.gif', writer='imagemagick', fps=30)
 
-
-
+	

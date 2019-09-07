@@ -32,7 +32,6 @@ for imgFile in os.listdir(dire):
 	
 	try:
 		imagePath = dire+"/"+imgFile
-		#print imagePath, int(imgFile.split(".")[0])
 		image = np.array(Image.open(imagePath))
 		indexing.append([int(imgFile.split(".")[0]),pooldown(image,1).tolist(),pooldown(image,3).tolist(),pooldown(image,5).tolist(),pooldown(image,7).tolist(),pooldown(image,9).tolist()])
 		if i%500 == 0:
@@ -46,8 +45,3 @@ for imgFile in os.listdir(dire):
 print(i)
 with open(dire+"indexes", 'w') as file:
      file.write(pickle.dumps(indexing)) 
-
-
-# infile = open(filename,'rb')
-# new_dict = pickle.load(infile)
-# infile.close()

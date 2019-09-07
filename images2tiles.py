@@ -78,7 +78,3 @@ for subdir, dirs, files in os.walk(sys.argv[1]):
       print(e)
       print("Failed for "+str(i))
 print("Tota of "+str(i)+"images")
-# import cPickle as pickle
-
-# with open('file.txt', 'w') as file:
-#      file.write(pickle.dumps(data)) 
