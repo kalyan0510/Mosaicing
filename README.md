@@ -2,7 +2,7 @@
 create beautiful mosaic arts from any set of images
 
 
-Click on my blog : https://mindexing.tumblr.com/post/181711807719/mosaic
+Click on my blog post : https://kalyan0510.github.io/posts/mosaicing.html
 to know about the algorithm in detail
 
 ## Few results produced by code:
@@ -33,4 +33,4 @@ to know about the algorithm in detail
 
 
 
-https://mindexing.tumblr.com/post/181711807719/mosaic
+https://kalyan0510.github.io/posts/mosaicing.html
