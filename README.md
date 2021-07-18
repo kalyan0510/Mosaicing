@@ -2,8 +2,11 @@
 create beautiful mosaic arts from any set of images
 
 
-Click on my blog post : https://kalyan0510.github.io/posts/mosaicing.html
-to know about the algorithm in detail
+Open this page to read more about algoithm : https://kalyan0510.github.io/posts/mosaicing.html
+
+## How to generate mosaic videos from Personal Google Photos
+https://kalyan0510.github.io/posts/recursivemosaic.html
+
 
 ## Few results produced by code:
 
@@ -11,14 +14,11 @@ to know about the algorithm in detail
   <img src="resursive%20mosaic%20vedio.gif" width="400" />
 
 
-
-
-- Mosaic  
+- Input image and generated mosiac (from car dataset)
 <p float="left">
   <img src="testimage.jpg" width="350" />
   <img src="testimage_mosaic.jpg" width="350" /> 
 </p>
-
 
 
 
